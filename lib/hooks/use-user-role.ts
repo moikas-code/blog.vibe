@@ -21,35 +21,35 @@ export function use_user_role() {
   const [is_loading, set_is_loading] = useState(true)
   const [error, set_error] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function fetch_user_profile() {
-      if (!isLoaded || !user) {
-        set_is_loading(false)
-        return
-      }
-
-      try {
-        const { data, error } = await supabase
-          .from('authors')
-          .select('id, clerk_id, name, role, bio, avatar_url')
-          .eq('clerk_id', user.id)
-          .single()
-
-        if (error) {
-          throw error
-        }
-
-        set_user_profile(data)
-        set_error(null)
-      } catch (err) {
-        console.error('Error fetching user profile:', err)
-        set_error('Failed to fetch user profile')
-        set_user_profile(null)
-      } finally {
-        set_is_loading(false)
-      }
+  const fetch_user_profile = async () => {
+    if (!isLoaded || !user) {
+      set_is_loading(false)
+      return
     }
 
+    try {
+      const { data, error } = await supabase
+        .from('authors')
+        .select('id, clerk_id, name, role, bio, avatar_url')
+        .eq('clerk_id', user.id)
+        .single()
+
+      if (error) {
+        throw error
+      }
+
+      set_user_profile(data)
+      set_error(null)
+    } catch (err) {
+      console.error('Error fetching user profile:', err)
+      set_error('Failed to fetch user profile')
+      set_user_profile(null)
+    } finally {
+      set_is_loading(false)
+    }
+  }
+
+  useEffect(() => {
     fetch_user_profile()
   }, [user, isLoaded])
 
@@ -78,16 +78,7 @@ export function use_user_role() {
       }
 
       // Refresh user profile
-      const { data } = await supabase
-        .from('authors')
-        .select('id, clerk_id, name, role, bio, avatar_url')
-        .eq('clerk_id', user.id)
-        .single()
-
-      if (data) {
-        set_user_profile(data)
-      }
-
+      await fetch_user_profile()
       return true
     } catch (err) {
       console.error('Error promoting to author:', err)
@@ -131,38 +122,6 @@ export function use_user_role() {
     can_manage_users,
     promote_to_author,
     promote_user,
-    refresh: () => {
-      if (user) {
-        fetch_user_profile()
-      }
-    }
-  }
-
-  async function fetch_user_profile() {
-    if (!isLoaded || !user) {
-      set_is_loading(false)
-      return
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('authors')
-        .select('id, clerk_id, name, role, bio, avatar_url')
-        .eq('clerk_id', user.id)
-        .single()
-
-      if (error) {
-        throw error
-      }
-
-      set_user_profile(data)
-      set_error(null)
-    } catch (err) {
-      console.error('Error fetching user profile:', err)
-      set_error('Failed to fetch user profile')
-      set_user_profile(null)
-    } finally {
-      set_is_loading(false)
-    }
+    refresh: fetch_user_profile
   }
 }
