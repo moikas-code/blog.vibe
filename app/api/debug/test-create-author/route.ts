@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server'
+import { auth } from '@clerk/nextjs/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 
 export async function POST() {
+  // Only allow authenticated users to access this endpoint
+  const { userId } = await auth()
+  
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   // Test data from your webhook
   const testAuthorData = {
     clerk_id: 'user_2yFd566gvYDQrTKfgSUxRYVnDrC',
