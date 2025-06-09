@@ -14,6 +14,7 @@ import {
   Clock,
   User
 } from 'lucide-react'
+import { strip_html_tags } from '@/lib/utils'
 
 async function getRecentPosts() {
   const { data } = await supabase
@@ -192,7 +193,7 @@ export default async function Home() {
                     </h3>
                     
                     <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4 font-mono">
-                      {post.excerpt || post.content}
+                      {strip_html_tags(post.excerpt || post.content)}
                     </p>
                     
                     <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 font-mono">

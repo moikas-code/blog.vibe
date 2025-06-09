@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { supabase } from '@/lib/supabase/client'
 import { formatDistanceToNow } from 'date-fns'
 import { Clock, User } from 'lucide-react'
+import { strip_html_tags } from '@/lib/utils'
 
 interface PostsPageProps {
   searchParams: Promise<{
@@ -136,7 +137,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
                   </h3>
                   
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4 font-mono">
-                    {post.excerpt || post.content}
+                    {strip_html_tags(post.excerpt || post.content)}
                   </p>
                   
                   <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 font-mono">
