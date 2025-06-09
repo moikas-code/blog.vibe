@@ -46,12 +46,14 @@
     "lowlight": "^3.3.0",
     "lucide-react": "^0.513.0",
     "next": "15.3.3",
+    "next-pwa": "^5.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "rss": "^1.2.2",
     "sonner": "^2.0.5",
     "svix": "^1.67.0",
     "tailwind-merge": "^3.3.0",
+    "workbox-webpack-plugin": "^7.3.0",
     "zod": "^3.25.56"
   },
   "devDependencies": {
