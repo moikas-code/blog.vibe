@@ -13,7 +13,7 @@ import {
   AlertTriangle,
   Link
 } from 'lucide-react'
-import { use_slug_validation } from '@/lib/hooks/use-slug-validation'
+import { useSlugValidation } from '@/lib/hooks/use-slug-validation'
 import { cn } from '@/lib/utils'
 
 type SlugType = 'post' | 'category' | 'tag'
@@ -64,10 +64,9 @@ export const SlugInput = forwardRef<SlugInputRef, SlugInputProps>(({
     validate_slug,
     generate_slug,
     is_valid,
-    has_issues,
     suggested_slug,
     issues
-  } = use_slug_validation({
+  } = useSlugValidation({
     type,
     exclude_id,
     allow_cross_table_conflicts,

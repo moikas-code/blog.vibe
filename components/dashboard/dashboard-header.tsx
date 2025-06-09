@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { FolderPlus, Tag, Home } from 'lucide-react'
+import { Tag, Home } from 'lucide-react'
 import { use_user_role } from '@/lib/hooks/use-user-role'
 
 export function DashboardHeader() {

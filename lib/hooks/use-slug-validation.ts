@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 
 // Simple debounce implementation
-function use_debounce<T extends (...args: any[]) => any>(
+function useDebounce<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -29,7 +29,7 @@ interface UseSlugValidationOptions {
   debounce_ms?: number
 }
 
-export function use_slug_validation({
+export function useSlugValidation({
   type,
   exclude_id,
   allow_cross_table_conflicts = false,
@@ -79,7 +79,7 @@ export function use_slug_validation({
     }
   }, [type, exclude_id, allow_cross_table_conflicts])
 
-  const debounced_validate = use_debounce(validate_slug, debounce_ms)
+  const debounced_validate = useDebounce(validate_slug, debounce_ms)
 
   const generate_slug = useCallback(async (text: string) => {
     if (!text.trim()) return ''

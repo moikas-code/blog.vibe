@@ -25,7 +25,7 @@ export function BecomeAuthorButton() {
       } else {
         toast.error('Failed to become an author. Please try again.')
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred. Please try again.')
     } finally {
       set_is_promoting(false)
