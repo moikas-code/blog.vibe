@@ -28,6 +28,9 @@ export function use_user_role() {
     }
 
     try {
+      // Set the current user context for RLS policies
+      await supabase.rpc('set_current_user', { user_id: user.id })
+
       const { data, error } = await supabase
         .from('authors')
         .select('id, clerk_id, name, role, bio, avatar_url')
