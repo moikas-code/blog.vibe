@@ -26,7 +26,7 @@ export async function GET(
     }
 
     return NextResponse.json(data)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -75,7 +75,7 @@ export async function PATCH(
 
     const { tags, ...postData } = validatedData
 
-    const updateData: any = { ...postData }
+    const updateData: Record<string, unknown> = { ...postData }
     if (postData.published && !existingPost.published) {
       updateData.published_at = new Date().toISOString()
     }
@@ -193,7 +193,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

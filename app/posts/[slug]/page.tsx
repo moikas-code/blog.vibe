@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { supabase } from '@/lib/supabase/client'
-import { formatDistanceToNow, format } from 'date-fns'
+import { format } from 'date-fns'
 import { ArrowLeft, Calendar, User, Tag } from 'lucide-react'
 
 interface PostPageProps {
@@ -95,7 +95,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="border-t pt-6">
             <div className="flex items-center gap-2 flex-wrap">
               <Tag className="h-4 w-4 text-gray-600" />
-              {post.tags.map((tagItem: any) => (
+              {post.tags.map((tagItem: { tag: { slug: string; name: string } }) => (
                 <Link
                   key={tagItem.tag.slug}
                   href={`/posts?tag=${tagItem.tag.slug}`}

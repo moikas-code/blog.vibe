@@ -64,7 +64,7 @@ export default async function DashboardPage() {
         <CardContent>
           {posts.length === 0 ? (
             <p className="text-gray-500 text-center py-8">
-              You haven't created any posts yet.
+              You haven&apos;t created any posts yet.
             </p>
           ) : (
             <div className="space-y-4">

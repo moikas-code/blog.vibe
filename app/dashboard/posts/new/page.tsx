@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { create_post_schema } from '@/lib/schemas/post'
+import { z } from 'zod'
 import { ArrowLeft, Save } from 'lucide-react'
 import Link from 'next/link'
 
@@ -79,16 +80,16 @@ export default function NewPostPage() {
         const error = await response.json()
         if (error.details) {
           const new_errors: Record<string, string> = {}
-          error.details.forEach((detail: any) => {
+          error.details.forEach((detail: { path: string[]; message: string }) => {
             new_errors[detail.path[0]] = detail.message
           })
           setErrors(new_errors)
         }
       }
-    } catch (error: any) {
-      if (error.errors) {
+    } catch (error) {
+      if (error instanceof z.ZodError) {
         const new_errors: Record<string, string> = {}
-        error.errors.forEach((err: any) => {
+        error.errors.forEach((err) => {
           new_errors[err.path[0]] = err.message
         })
         setErrors(new_errors)

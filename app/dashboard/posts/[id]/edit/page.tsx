@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { update_post_schema } from '@/lib/schemas/post'
+import { z } from 'zod'
 import { ArrowLeft, Save } from 'lucide-react'
 import Link from 'next/link'
 
@@ -51,12 +52,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
   const [tagInput, setTagInput] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
 
-  useEffect(() => {
-    fetch_post()
-    fetch_categories()
-  }, [params.id])
-
-  const fetch_post = async () => {
+  const fetch_post = useCallback(async () => {
     const response = await fetch(`/api/posts/${params.id}`)
     if (response.ok) {
       const data = await response.json()
@@ -70,10 +66,10 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
         featured_image: data.featured_image || '',
         meta_description: data.meta_description || '',
         published: data.published,
-        tags: data.tags?.map((t: any) => t.tag.name) || [],
+        tags: data.tags?.map((t: { tag: { name: string } }) => t.tag.name) || [],
       })
     }
-  }
+  }, [params.id])
 
   const fetch_categories = async () => {
     const response = await fetch('/api/categories')
@@ -82,6 +78,11 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
       setCategories(data)
     }
   }
+
+  useEffect(() => {
+    fetch_post()
+    fetch_categories()
+  }, [fetch_post])
 
   const handle_submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -103,16 +104,16 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
         const error = await response.json()
         if (error.details) {
           const new_errors: Record<string, string> = {}
-          error.details.forEach((detail: any) => {
+          error.details.forEach((detail: { path: string[]; message: string }) => {
             new_errors[detail.path[0]] = detail.message
           })
           setErrors(new_errors)
         }
       }
-    } catch (error: any) {
-      if (error.errors) {
+    } catch (error) {
+      if (error instanceof z.ZodError) {
         const new_errors: Record<string, string> = {}
-        error.errors.forEach((err: any) => {
+        error.errors.forEach((err) => {
           new_errors[err.path[0]] = err.message
         })
         setErrors(new_errors)

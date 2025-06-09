@@ -34,9 +34,6 @@ import {
   Table as TableIcon,
   Undo,
   Redo,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
   Type,
 } from 'lucide-react'
 import { createLowlight } from 'lowlight'
