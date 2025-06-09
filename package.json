@@ -19,20 +19,29 @@
     "supabase:gen-types": "supabase gen types typescript --local > lib/types/database.ts"
   },
   "dependencies": {
-    "@blocknote/core": "^0.32.0-hackdays.0",
-    "@blocknote/mantine": "^0.32.0-hackdays.0",
-    "@blocknote/react": "^0.32.0-hackdays.0",
     "@clerk/nextjs": "^6.21.0",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/supabase-js": "^2.50.0",
+    "@tiptap/extension-character-count": "^2.14.0",
+    "@tiptap/extension-code-block-lowlight": "^2.14.0",
+    "@tiptap/extension-image": "^2.14.0",
+    "@tiptap/extension-link": "^2.14.0",
+    "@tiptap/extension-placeholder": "^2.14.0",
+    "@tiptap/extension-strike": "^2.14.0",
+    "@tiptap/extension-table": "^2.14.0",
+    "@tiptap/extension-table-cell": "^2.14.0",
+    "@tiptap/extension-table-header": "^2.14.0",
+    "@tiptap/extension-table-row": "^2.14.0",
+    "@tiptap/extension-underline": "^2.14.0",
     "@tiptap/pm": "^2.14.0",
     "@tiptap/react": "^2.14.0",
     "@tiptap/starter-kit": "^2.14.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "lowlight": "^3.3.0",
     "lucide-react": "^0.513.0",
     "next": "15.3.3",
     "react": "^19.0.0",
@@ -43,15 +52,15 @@
     "zod": "^3.25.56"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
-    "@eslint/eslintrc": "^3",
-    "supabase": "^2.24.3"
+    "supabase": "^2.24.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
