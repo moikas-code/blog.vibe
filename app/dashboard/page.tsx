@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { supabase } from '@/lib/supabase/client'
-import { PlusCircle, Edit, Trash2, FolderPlus } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
+import { DashboardHeader } from '@/components/dashboard/dashboard-header'
 
 async function getAuthorPosts(clerkId: string) {
   const { data: author } = await supabase
@@ -38,23 +39,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <div className="flex gap-2">
-          <Link href="/dashboard/categories">
-            <Button variant="outline">
-              <FolderPlus className="mr-2 h-4 w-4" />
-              Manage Categories
-            </Button>
-          </Link>
-          <Link href="/dashboard/posts/new">
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              New Post
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <DashboardHeader />
 
       <Card>
         <CardHeader>

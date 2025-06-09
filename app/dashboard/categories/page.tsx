@@ -19,6 +19,7 @@ interface Category {
 }
 
 export default function CategoriesManagementPage() {
+  const { can_manage_categories, is_loading: role_loading } = use_user_role()
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -128,6 +129,32 @@ export default function CategoriesManagementPage() {
   const reset_form = () => {
     setFormData({ name: '', slug: '', description: '' })
     setEditingCategory(null)
+  }
+
+  if (role_loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!can_manage_categories) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Card className="max-w-md mx-auto">
+          <CardHeader className="text-center">
+            <Shield className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+            <CardTitle>Admin Access Required</CardTitle>
+            <CardDescription>
+              Only administrators can manage categories. Contact an admin to get promoted.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
   }
 
   return (
