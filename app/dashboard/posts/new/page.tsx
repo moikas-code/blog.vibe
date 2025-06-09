@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { create_post_schema } from '@/lib/schemas/post'
 import { z } from 'zod'
-import { ArrowLeft, Save } from 'lucide-react'
+import { ArrowLeft, Save, FileText, Tag, Image, Search } from 'lucide-react'
 import Link from 'next/link'
 
 interface Category {
@@ -121,67 +121,77 @@ export default function NewPostPage() {
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="rounded-lg">
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold">Create New Post</h1>
+          <h1 className="text-3xl font-bold font-mono flex items-center gap-3">
+            <FileText className="h-8 w-8" />
+            Create New Post
+          </h1>
         </div>
-        <Button onClick={handle_submit} disabled={loading}>
+        <Button 
+          onClick={handle_submit} 
+          disabled={loading}
+          className="font-mono rounded-lg glass gradient-ai"
+        >
           <Save className="mr-2 h-4 w-4" />
           {loading ? 'Saving...' : 'Save Post'}
         </Button>
       </div>
 
       <form onSubmit={handle_submit} className="space-y-6">
-        <Card>
+        <Card className="glass">
           <CardHeader>
-            <CardTitle>Post Details</CardTitle>
+            <CardTitle className="font-mono">Post Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="font-mono">Title</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="Enter post title"
+                className="font-mono"
               />
-              {errors.title && <p className="text-sm text-red-500 mt-1">{errors.title}</p>}
+              {errors.title && <p className="text-sm text-red-500 mt-1 font-mono">{errors.title}</p>}
             </div>
 
             <div>
-              <Label htmlFor="slug">Slug</Label>
+              <Label htmlFor="slug" className="font-mono">Slug</Label>
               <Input
                 id="slug"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                 placeholder="post-url-slug"
+                className="font-mono"
               />
-              {errors.slug && <p className="text-sm text-red-500 mt-1">{errors.slug}</p>}
+              {errors.slug && <p className="text-sm text-red-500 mt-1 font-mono">{errors.slug}</p>}
             </div>
 
             <div>
-              <Label htmlFor="excerpt">Excerpt</Label>
+              <Label htmlFor="excerpt" className="font-mono">Excerpt</Label>
               <Textarea
                 id="excerpt"
                 value={formData.excerpt}
                 onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                 placeholder="Brief description of your post"
                 rows={3}
+                className="font-mono"
               />
             </div>
 
             <div>
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category" className="font-mono">Category</Label>
               <Select
                 value={formData.category_id}
                 onValueChange={(value) => setFormData({ ...formData, category_id: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className="font-mono">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="font-mono">
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
@@ -192,18 +202,25 @@ export default function NewPostPage() {
             </div>
 
             <div>
-              <Label htmlFor="featured_image">Featured Image URL</Label>
+              <Label htmlFor="featured_image" className="font-mono flex items-center gap-2">
+                <Image className="h-4 w-4" />
+                Featured Image URL
+              </Label>
               <Input
                 id="featured_image"
                 type="url"
                 value={formData.featured_image}
                 onChange={(e) => setFormData({ ...formData, featured_image: e.target.value })}
                 placeholder="https://example.com/image.jpg"
+                className="font-mono"
               />
             </div>
 
             <div>
-              <Label htmlFor="meta_description">Meta Description</Label>
+              <Label htmlFor="meta_description" className="font-mono flex items-center gap-2">
+                <Search className="h-4 w-4" />
+                Meta Description
+              </Label>
               <Textarea
                 id="meta_description"
                 value={formData.meta_description}
@@ -211,11 +228,15 @@ export default function NewPostPage() {
                 placeholder="SEO meta description (max 160 characters)"
                 maxLength={160}
                 rows={2}
+                className="font-mono"
               />
             </div>
 
             <div>
-              <Label htmlFor="tags">Tags</Label>
+              <Label htmlFor="tags" className="font-mono flex items-center gap-2">
+                <Tag className="h-4 w-4" />
+                Tags
+              </Label>
               <div className="flex gap-2">
                 <Input
                   id="tags"
@@ -228,8 +249,9 @@ export default function NewPostPage() {
                     }
                   }}
                   placeholder="Add a tag"
+                  className="font-mono"
                 />
-                <Button type="button" onClick={add_tag} variant="outline">
+                <Button type="button" onClick={add_tag} variant="outline" className="font-mono rounded-lg">
                   Add
                 </Button>
               </div>
@@ -237,7 +259,7 @@ export default function NewPostPage() {
                 {formData.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 rounded-full text-sm flex items-center gap-1"
+                    className="px-3 py-1 glass rounded-lg text-sm font-mono flex items-center gap-1"
                   >
                     {tag}
                     <button
@@ -260,25 +282,25 @@ export default function NewPostPage() {
                 onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
                 className="rounded"
               />
-              <Label htmlFor="published" className="cursor-pointer">
+              <Label htmlFor="published" className="cursor-pointer font-mono">
                 Publish immediately
               </Label>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass">
           <CardHeader>
-            <CardTitle>Content</CardTitle>
+            <CardTitle className="font-mono">Content</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="min-h-[400px] border rounded-lg">
+            <div className="min-h-[400px] glass rounded-lg">
               <TiptapEditor
                 content={formData.content}
                 onChange={(content) => setFormData({ ...formData, content })}
               />
             </div>
-            {errors.content && <p className="text-sm text-red-500 mt-1">{errors.content}</p>}
+            {errors.content && <p className="text-sm text-red-500 mt-1 font-mono">{errors.content}</p>}
           </CardContent>
         </Card>
       </form>

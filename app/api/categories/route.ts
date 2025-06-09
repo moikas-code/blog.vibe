@@ -32,15 +32,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: author } = await supabase
+    // Check if user exists and has permission to create categories
+    const { data: author } = await supabaseAdmin
       .from('authors')
-      .select('id')
+      .select('id, role')
       .eq('clerk_id', userId)
       .single()
 
     if (!author) {
       return NextResponse.json(
-        { error: 'Only authors can create categories' },
+        { error: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    // Only admin and author roles can create categories
+    if (!['admin', 'author'].includes(author.role)) {
+      return NextResponse.json(
+        { error: 'Only authors and admins can create categories' },
         { status: 403 }
       )
     }
@@ -48,38 +57,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const validatedData = create_category_schema.parse(body)
 
-    let data, error
-
-    try {
-      const result = await supabaseAdmin
-        .from('categories')
-        .insert(validatedData)
-        .select()
-        .single()
-      data = result.data
-      error = result.error
-    } catch (insertError) {
-      // If direct insert fails due to RLS, try using RPC function
-      console.log('Direct category insert failed, trying RPC approach:', insertError)
-      const rpcResult = await supabaseAdmin.rpc('create_category', {
-        p_name: validatedData.name,
-        p_slug: validatedData.slug,
-        p_description: validatedData.description || null
-      })
-      
-      if (rpcResult.error) {
-        error = rpcResult.error
-      } else {
-        // Get the created category
-        const categoryResult = await supabaseAdmin
-          .from('categories')
-          .select()
-          .eq('slug', validatedData.slug)
-          .single()
-        data = categoryResult.data
-        error = categoryResult.error
-      }
-    }
+    // Use supabaseAdmin to bypass RLS policies
+    const { data, error } = await supabaseAdmin
+      .from('categories')
+      .insert(validatedData)
+      .select()
+      .single()
 
     if (error) {
       if (error.code === '23505') {

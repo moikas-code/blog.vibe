@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Trash2, Edit, Shield } from 'lucide-react'
+import { Trash2, Edit, Shield, Plus, Tag } from 'lucide-react'
 import { use_user_role } from '@/lib/hooks/use-user-role'
 
 interface Category {
@@ -159,21 +159,35 @@ export default function CategoriesManagementPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Categories</h1>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold font-mono flex items-center gap-3">
+          <Tag className="h-8 w-8" />
+          Manage Categories
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2 font-mono">
+          Create and manage categories for organizing your blog posts
+        </p>
+      </div>
 
       <div className="grid gap-8 md:grid-cols-2">
         {/* Category Form */}
-        <Card>
+        <Card className="glass">
           <CardHeader>
-            <CardTitle>{editingCategory ? 'Edit Category' : 'Create New Category'}</CardTitle>
-            <CardDescription>
+            <CardTitle className="font-mono flex items-center gap-2">
+              {editingCategory ? (
+                <><Edit className="h-5 w-5" /> Edit Category</>
+              ) : (
+                <><Plus className="h-5 w-5" /> Create New Category</>
+              )}
+            </CardTitle>
+            <CardDescription className="font-mono">
               {editingCategory ? 'Update the category details' : 'Add a new category for organizing posts'}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handle_submit} className="space-y-4">
               <div>
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name" className="font-mono">Name</Label>
                 <Input
                   id="name"
                   name="name"
@@ -181,11 +195,12 @@ export default function CategoriesManagementPage() {
                   onChange={handle_input_change}
                   required
                   placeholder="Technology"
+                  className="font-mono"
                 />
               </div>
 
               <div>
-                <Label htmlFor="slug">Slug</Label>
+                <Label htmlFor="slug" className="font-mono">Slug</Label>
                 <Input
                   id="slug"
                   name="slug"
@@ -195,11 +210,12 @@ export default function CategoriesManagementPage() {
                   placeholder="technology"
                   pattern="[a-z0-9-]+"
                   title="Only lowercase letters, numbers, and hyphens"
+                  className="font-mono"
                 />
               </div>
 
               <div>
-                <Label htmlFor="description">Description (optional)</Label>
+                <Label htmlFor="description" className="font-mono">Description (optional)</Label>
                 <Textarea
                   id="description"
                   name="description"
@@ -207,15 +223,25 @@ export default function CategoriesManagementPage() {
                   onChange={handle_input_change}
                   placeholder="Posts about technology and innovations"
                   rows={3}
+                  className="font-mono"
                 />
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit" disabled={submitting}>
+                <Button 
+                  type="submit" 
+                  disabled={submitting}
+                  className="font-mono rounded-lg glass gradient-ai"
+                >
                   {submitting ? 'Saving...' : editingCategory ? 'Update Category' : 'Create Category'}
                 </Button>
                 {editingCategory && (
-                  <Button type="button" variant="outline" onClick={reset_form}>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={reset_form}
+                    className="font-mono rounded-lg"
+                  >
                     Cancel
                   </Button>
                 )}
@@ -225,28 +251,31 @@ export default function CategoriesManagementPage() {
         </Card>
 
         {/* Categories List */}
-        <Card>
+        <Card className="glass">
           <CardHeader>
-            <CardTitle>Existing Categories</CardTitle>
-            <CardDescription>Manage your blog categories</CardDescription>
+            <CardTitle className="font-mono">Existing Categories</CardTitle>
+            <CardDescription className="font-mono">Manage your blog categories</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-gray-500">Loading categories...</p>
+              <p className="text-gray-500 font-mono text-center py-8">Loading categories...</p>
             ) : categories.length === 0 ? (
-              <p className="text-gray-500">No categories yet. Create your first category!</p>
+              <div className="text-center py-8">
+                <Tag className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                <p className="text-gray-500 font-mono">No categories yet. Create your first category!</p>
+              </div>
             ) : (
               <div className="space-y-2">
                 {categories.map((category) => (
                   <div
                     key={category.id}
-                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="flex items-center justify-between p-4 glass rounded-lg hover-lift"
                   >
                     <div className="flex-1">
-                      <h4 className="font-medium">{category.name}</h4>
-                      <p className="text-sm text-gray-500">/{category.slug}</p>
+                      <h4 className="font-mono font-bold mb-1">{category.name}</h4>
+                      <p className="text-sm text-gray-500 font-mono">/{category.slug}</p>
                       {category.description && (
-                        <p className="text-sm text-gray-600 mt-1">{category.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 font-mono">{category.description}</p>
                       )}
                     </div>
                     <div className="flex gap-2">
@@ -254,13 +283,16 @@ export default function CategoriesManagementPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handle_edit(category)}
+                        className="font-mono"
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="h-4 w-4 mr-1" />
+                        Edit
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handle_delete(category.id)}
+                        className="font-mono text-red-600 hover:text-red-700"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
