@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blog Feed",
+  title: "Feed",
   description: "A multi-author blog with RSS feed",
 };
 

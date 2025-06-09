@@ -7,14 +7,14 @@ export async function GET() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
     
     const feed = new RSS({
-      title: 'Blog Feed',
+      title: 'Feed',
       description: 'A multi-author blog with RSS feed',
       feed_url: `${baseUrl}/api/rss`,
       site_url: baseUrl,
       image_url: `${baseUrl}/logo.png`,
       managingEditor: 'editor@blogfeed.com',
       webMaster: 'webmaster@blogfeed.com',
-      copyright: `${new Date().getFullYear()} Blog Feed`,
+      copyright: `${new Date().getFullYear()} Feed`,
       language: 'en',
       categories: ['Blog', 'Technology', 'Writing'],
       pubDate: new Date().toUTCString(),

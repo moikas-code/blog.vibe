@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <main className="container mx-auto px-4 py-8">
       <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Blog Feed</h1>
+        <h1 className="text-4xl font-bold mb-4">Welcome to Feed</h1>
         <p className="text-lg text-gray-600 mb-6">
           A multi-author blog platform with RSS feed support
         </p>

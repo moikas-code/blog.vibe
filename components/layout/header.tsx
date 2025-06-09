@@ -14,7 +14,7 @@ export function Header() {
       <SyncStatus />
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
-          <nav className="flex items-center justify-between">
+          <navFeede="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link href="/" className="text-2xl font-bold">
               Blog Feed
