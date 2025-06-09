@@ -44,7 +44,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
     slug: '',
     content: '',
     excerpt: '',
-    category_id: '',
+    category_id: 'none',
     featured_image: '',
     meta_description: '',
     published: false,
@@ -68,7 +68,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
         slug: data.slug,
         content: data.content,
         excerpt: data.excerpt || '',
-        category_id: data.category_id || '',
+        category_id: data.category_id || 'none',
         featured_image: data.featured_image || '',
         meta_description: data.meta_description || '',
         published: data.published,
@@ -98,7 +98,11 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
     setErrors({})
 
     try {
-      const validated_data = update_post_schema.parse(formData)
+      const submit_data = {
+        ...formData,
+        category_id: formData.category_id === 'none' ? null : formData.category_id
+      }
+      const validated_data = update_post_schema.parse(submit_data)
       
       const response = await fetch(`/api/posts/${postId}`, {
         method: 'PATCH',
@@ -234,7 +238,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent className="font-mono">
-                  <SelectItem value="">No category</SelectItem>
+                  <SelectItem value="none">No category</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
