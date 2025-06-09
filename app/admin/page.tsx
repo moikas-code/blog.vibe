@@ -125,12 +125,12 @@ export default function AdminPage() {
   if (!is_admin) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-md mx-auto">
+        <Card className="max-w-md mx-auto glass">
           <CardContent className="pt-6">
             <div className="text-center">
               <Crown className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-              <h2 className="text-xl font-bold mb-2">Admin Access Required</h2>
-              <p className="text-gray-600">
+              <h2 className="text-xl font-bold mb-2 font-mono">Admin Access Required</h2>
+              <p className="text-gray-600 dark:text-gray-400 font-mono">
                 You need admin privileges to access this page.
               </p>
             </div>
@@ -142,55 +142,55 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mb-8">
         <Crown className="h-8 w-8 text-purple-600" />
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold font-mono">Admin Dashboard</h1>
       </div>
 
       {/* Stats Cards */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>
+          <Card className="glass">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <CardTitle className="text-sm font-medium font-mono">Total Users</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total_users}</div>
-              <div className="text-xs text-muted-foreground mt-1">
+              <div className="text-2xl font-bold font-mono">{stats.total_users}</div>
+              <div className="text-xs text-muted-foreground mt-1 font-mono">
                 {stats.admin_count} admins, {stats.author_count} authors, {stats.reader_count} readers
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Posts</CardTitle>
+              <CardTitle className="text-sm font-medium font-mono">Total Posts</CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total_posts}</div>
+              <div className="text-2xl font-bold font-mono">{stats.total_posts}</div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Categories</CardTitle>
+              <CardTitle className="text-sm font-medium font-mono">Categories</CardTitle>
               <FolderOpen className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total_categories}</div>
+              <div className="text-2xl font-bold font-mono">{stats.total_categories}</div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">System Health</CardTitle>
+              <CardTitle className="text-sm font-medium font-mono">System Health</CardTitle>
               <Crown className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">Healthy</div>
-              <div className="text-xs text-muted-foreground mt-1">
+              <div className="text-2xl font-bold text-green-600 font-mono">Healthy</div>
+              <div className="text-xs text-muted-foreground mt-1 font-mono">
                 All systems operational
               </div>
             </CardContent>
@@ -199,9 +199,9 @@ export default function AdminPage() {
       )}
 
       {/* User Management */}
-      <Card>
+      <Card className="glass">
         <CardHeader>
-          <CardTitle>User Management</CardTitle>
+          <CardTitle className="font-mono">User Management</CardTitle>
         </CardHeader>
         <CardContent>
           {loading_users ? (
@@ -213,12 +213,12 @@ export default function AdminPage() {
               {users.map((user) => (
                 <div 
                   key={user.id} 
-                  className="flex items-center justify-between p-4 border rounded-lg"
+                  className="flex items-center justify-between p-4 glass rounded-lg hover-lift"
                 >
                   <div className="flex items-center gap-4">
                     <div>
-                      <h3 className="font-medium">{user.name}</h3>
-                      <p className="text-sm text-gray-600">
+                      <h3 className="font-medium font-mono">{user.name}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 font-mono">
                         Joined {new Date(user.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -232,6 +232,7 @@ export default function AdminPage() {
                         variant="outline"
                         onClick={() => promote_user(user.clerk_id, 'admin')}
                         disabled={promoting_user === user.id}
+                        className="font-mono rounded-lg"
                       >
                         {promoting_user === user.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
@@ -247,6 +248,7 @@ export default function AdminPage() {
                         variant="outline"
                         onClick={() => promote_user(user.clerk_id, 'author')}
                         disabled={promoting_user === user.id}
+                        className="font-mono rounded-lg"
                       >
                         {promoting_user === user.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
@@ -262,6 +264,7 @@ export default function AdminPage() {
                         variant="outline"
                         onClick={() => promote_user(user.clerk_id, 'reader')}
                         disabled={promoting_user === user.id}
+                        className="font-mono rounded-lg"
                       >
                         {promoting_user === user.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />

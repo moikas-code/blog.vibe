@@ -14,20 +14,20 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
     reader: {
       label: 'Reader',
       icon: User,
-      variant: 'secondary' as const,
-      className: 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+      variant: 'outline' as const,
+      className: 'glass'
     },
     author: {
       label: 'Author',
       icon: Edit,
-      variant: 'default' as const,
-      className: 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+      variant: 'outline' as const,
+      className: 'glass gradient-ai text-white border-0'
     },
     admin: {
       label: 'Admin',
       icon: Crown,
-      variant: 'destructive' as const,
-      className: 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+      variant: 'outline' as const,
+      className: 'glass gradient-gaming text-white border-0'
     }
   }
 

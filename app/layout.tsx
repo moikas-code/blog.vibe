@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { AuthSyncProvider } from '@/components/auth/auth-sync-provider';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
           <AuthSyncProvider>
             {children}
           </AuthSyncProvider>
+          <Toaster position="top-right" />
           <Analytics />
         </body>
       </html>

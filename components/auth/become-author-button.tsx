@@ -36,7 +36,7 @@ export function BecomeAuthorButton() {
     <Button
       onClick={handle_promotion}
       disabled={is_promoting}
-      className="gap-2"
+      className="gap-2 font-mono rounded-lg glass gradient-ai"
     >
       {is_promoting ? (
         <Loader2 className="h-4 w-4 animate-spin" />
