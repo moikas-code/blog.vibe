@@ -52,12 +52,12 @@ export default function AdminPage() {
         set_users(users_data)
       }
 
-      // Fetch stats
-      const { data: posts_count } = await supabase
+      // Fetch stats - use count property from response
+      const { count: posts_count } = await supabase
         .from('posts')
         .select('*', { count: 'exact', head: true })
 
-      const { data: categories_count } = await supabase
+      const { count: categories_count } = await supabase
         .from('categories')
         .select('*', { count: 'exact', head: true })
 
@@ -69,8 +69,8 @@ export default function AdminPage() {
 
         set_stats({
           total_users: users_data.length,
-          total_posts: posts_count.count || 0,
-          total_categories: categories_count.count || 0,
+          total_posts: posts_count || 0,
+          total_categories: categories_count || 0,
           admin_count: role_counts.admin_count || 0,
           author_count: role_counts.author_count || 0,
           reader_count: role_counts.reader_count || 0
