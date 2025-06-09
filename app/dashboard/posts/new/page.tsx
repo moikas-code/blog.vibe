@@ -191,7 +191,7 @@ export default function NewPostPage() {
                 <SelectTrigger className="font-mono">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
-                <SelectContent className="font-mono">
+                <SelectContent className="font-mono glass">
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}

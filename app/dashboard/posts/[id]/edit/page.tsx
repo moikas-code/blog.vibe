@@ -237,7 +237,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                 <SelectTrigger className="font-mono">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
-                <SelectContent className="font-mono">
+                <SelectContent className="font-mono glass">
                   <SelectItem value="none">No category</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
