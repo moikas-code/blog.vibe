@@ -16,26 +16,26 @@ export function Header() {
   return (
     <>
       <SyncStatus />
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
+      <header className="glass border-b border-gray-200/50 dark:border-gray-700/50">
+        <div className="container mx-auto px-4 py-3">
           <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <Link href="/" className="text-2xl font-bold">
-              Blog Feed
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="text-xl font-bold font-mono tracking-tight">
+              Feed
             </Link>
-            <Link href="/posts" className="hover:text-gray-600">
+            <Link href="/posts" className="text-sm font-mono text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Posts
             </Link>
-            <Link href="/categories" className="hover:text-gray-600">
+            <Link href="/categories" className="text-sm font-mono text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Categories
             </Link>
             {isSignedIn && can_create_posts && (
-              <Link href="/dashboard" className="hover:text-gray-600">
+              <Link href="/dashboard" className="text-sm font-mono text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                 Dashboard
               </Link>
             )}
             {isSignedIn && is_admin && (
-              <Link href="/admin" className="hover:text-gray-600">
+              <Link href="/admin" className="text-sm font-mono text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                 Admin
               </Link>
             )}
@@ -43,8 +43,8 @@ export function Header() {
           
           <div className="flex items-center space-x-4">
             <Link href="/api/rss" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon">
-                <Rss className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-lg">
+                <Rss className="h-4 w-4" />
               </Button>
             </Link>
             
@@ -57,10 +57,10 @@ export function Header() {
             ) : (
               <div className="space-x-2">
                 <Link href="/sign-in">
-                  <Button variant="ghost">Sign In</Button>
+                  <Button variant="ghost" className="font-mono text-sm">Sign In</Button>
                 </Link>
                 <Link href="/sign-up">
-                  <Button>Sign Up</Button>
+                  <Button className="font-mono text-sm bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">Sign Up</Button>
                 </Link>
               </div>
             )}
