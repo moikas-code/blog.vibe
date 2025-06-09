@@ -124,7 +124,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
                       post.category.slug === 'ai' ? 'gradient-ai' :
                       post.category.slug === 'sports' ? 'gradient-sports' :
                       post.category.slug === 'music' ? 'gradient-music' :
-                      post.category.slug === 'finance' ? 'gradient-finance' :
+                      post.category.slug === 'news' ? 'gradient-news' :
                       'bg-gray-500'
                     }`}>
                       {post.category.name}

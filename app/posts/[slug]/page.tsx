@@ -85,7 +85,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   post.category.slug === 'ai' ? 'gradient-ai' :
                   post.category.slug === 'sports' ? 'gradient-sports' :
                   post.category.slug === 'music' ? 'gradient-music' :
-                  post.category.slug === 'finance' ? 'gradient-finance' :
+                  post.category.slug === 'news' ? 'gradient-news' :
                   'bg-gray-500'
                 }`}
               >

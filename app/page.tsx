@@ -67,11 +67,11 @@ const categories = [
     description: 'Music reviews, news, and playlists'
   },
   { 
-    name: 'Finance', 
-    slug: 'finance', 
+    name: 'News', 
+    slug: 'new', 
     icon: TrendingUp, 
-    gradient: 'gradient-finance',
-    description: 'Market analysis and financial insights'
+    gradient: 'gradient-news',
+    description: 'News and updates from around the world'
   },
 ]
 
@@ -180,7 +180,7 @@ export default async function Home() {
                         post.category.slug === 'ai' ? 'gradient-ai' :
                         post.category.slug === 'sports' ? 'gradient-sports' :
                         post.category.slug === 'music' ? 'gradient-music' :
-                        post.category.slug === 'finance' ? 'gradient-finance' :
+                        post.category.slug === 'news' ? 'gradient-news' :
                         'bg-gray-500'
                       }`}>
                         {post.category.name}
@@ -223,7 +223,7 @@ export default async function Home() {
           <Card className="glass p-12 max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold mb-4 font-mono">Join Our Community</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-8 font-mono">
-              Share your thoughts on gaming, anime, AI, sports, music, and finance
+              Share your thoughts on gaming, anime, AI, sports, music, and news
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/sign-up">
