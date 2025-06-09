@@ -5,10 +5,10 @@ import { supabase } from '@/lib/supabase/client'
 import { formatDistanceToNow } from 'date-fns'
 
 interface PostsPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string
     page?: string
-  }
+  }>
 }
 
 async function getCategories() {
@@ -53,9 +53,10 @@ async function getPosts(category?: string, page: number = 1, limit: number = 12)
 }
 
 export default async function PostsPage({ searchParams }: PostsPageProps) {
-  const page = parseInt(searchParams.page || '1')
+  const params = await searchParams
+  const page = parseInt(params.page || '1')
   const limit = 12
-  const { posts, total } = await getPosts(searchParams.category, page, limit)
+  const { posts, total } = await getPosts(params.category, page, limit)
   const categories = await getCategories()
   const totalPages = Math.ceil(total / limit)
 
@@ -68,7 +69,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
           <div className="flex gap-2 flex-wrap">
             <Link href="/posts">
               <Button 
-                variant={!searchParams.category ? "default" : "outline"}
+                variant={!params.category ? "default" : "outline"}
                 size="sm"
               >
                 All Categories
@@ -77,7 +78,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
             {categories.map((category) => (
               <Link key={category.id} href={`/posts?category=${category.slug}`}>
                 <Button 
-                  variant={searchParams.category === category.slug ? "default" : "outline"}
+                  variant={params.category === category.slug ? "default" : "outline"}
                   size="sm"
                 >
                   {category.name}
@@ -152,7 +153,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 mt-8">
           {page > 1 && (
-            <Link href={`/posts?${searchParams.category ? `category=${searchParams.category}&` : ''}page=${page - 1}`}>
+            <Link href={`/posts?${params.category ? `category=${params.category}&` : ''}page=${page - 1}`}>
               <Button variant="outline">← Previous</Button>
             </Link>
           )}
@@ -162,7 +163,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
           </span>
           
           {page < totalPages && (
-            <Link href={`/posts?${searchParams.category ? `category=${searchParams.category}&` : ''}page=${page + 1}`}>
+            <Link href={`/posts?${params.category ? `category=${params.category}&` : ''}page=${page + 1}`}>
               <Button variant="outline">Next →</Button>
             </Link>
           )}
