@@ -98,7 +98,7 @@ export default async function PostPage({ params }: PostPageProps) {
         <Card className="glass mb-12">
           <CardContent className="p-8">
             <div 
-              className="text-gray-800 dark:text-gray-200 leading-relaxed prose prose-lg max-w-none dark:prose-invert font-mono"
+              className="ProseMirror text-gray-800 dark:text-gray-200"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           </CardContent>

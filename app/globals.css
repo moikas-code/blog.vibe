@@ -387,6 +387,43 @@ body {
   background-color: #e5e7eb;
 }
 
+/* Dark mode styles for rendered content */
+.dark .ProseMirror blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
+.dark .ProseMirror code {
+  background-color: #374151;
+  color: #f87171;
+}
+
+.dark .ProseMirror pre {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+.dark .ProseMirror th {
+  background-color: #1f2937;
+}
+
+.dark .ProseMirror td,
+.dark .ProseMirror th {
+  border-color: #374151;
+}
+
+.dark .ProseMirror a {
+  color: #60a5fa;
+}
+
+.dark .ProseMirror a:hover {
+  color: #93bbfc;
+}
+
+.dark .ProseMirror ::selection {
+  background-color: #1e3a8a;
+}
+
 .tiptap-toolbar button.is-active {
   background-color: #dbeafe;
   color: #2563eb;
