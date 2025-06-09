@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/next';
-import { AuthSync } from '@/components/auth/auth-sync';
+import { AuthSyncProvider } from '@/components/auth/auth-sync-provider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +31,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <AuthSync />
-          {children}
+          <AuthSyncProvider>
+            {children}
+          </AuthSyncProvider>
           <Analytics />
         </body>
       </html>

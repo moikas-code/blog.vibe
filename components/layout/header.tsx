@@ -4,14 +4,17 @@ import Link from 'next/link'
 import { UserButton, useUser } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { Rss } from 'lucide-react'
+import { SyncStatus } from '@/components/auth/sync-status'
 
 export function Header() {
   const { isSignedIn } = useUser()
 
   return (
-    <header className="border-b">
-      <div className="container mx-auto px-4 py-4">
-        <nav className="flex items-center justify-between">
+    <>
+      <SyncStatus />
+      <header className="border-b">
+        <div className="container mx-auto px-4 py-4">
+          <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link href="/" className="text-2xl font-bold">
               Blog Feed
@@ -52,5 +55,6 @@ export function Header() {
         </nav>
       </div>
     </header>
+    </>
   )
 }

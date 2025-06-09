@@ -20,7 +20,7 @@ export async function POST() {
     // Create or update author record
     const authorData = {
       clerk_id: user.id,
-      name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Anonymous',
+      name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || 'Anonymous',
       avatar_url: user.imageUrl || null,
     }
 
