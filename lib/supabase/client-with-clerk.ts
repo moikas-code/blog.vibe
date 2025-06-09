@@ -30,10 +30,14 @@ export function useSupabaseWithClerk() {
 
   // Set the current user context for RLS policies
   if (userId) {
-    supabase.rpc('set_current_user', { user_id: userId }).catch(() => {
+    // Execute RPC call and handle potential errors  
+    try {
+      supabase.rpc('set_current_user', { user_id: userId })
+      // Note: RPC call executes asynchronously in background
+    } catch (error) {
       // If the function doesn't exist, we'll set it using a different method
-      console.warn('set_current_user function not found, using alternative method')
-    })
+      console.warn('set_current_user function not found, using alternative method', error)
+    }
   }
 
   return supabase

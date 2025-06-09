@@ -83,8 +83,8 @@ export async function has_cross_table_conflicts(
   slug: string, 
   current_type: SlugType
 ): Promise<{ conflicts: boolean; conflicting_types: SlugType[] }> {
-  const types_to_check: SlugType[] = ['post', 'category', 'tag'].filter(
-    type => type !== current_type
+  const types_to_check: SlugType[] = (['post', 'category', 'tag'] as const).filter(
+    (type): type is SlugType => type !== current_type
   )
   
   const conflicting_types: SlugType[] = []
