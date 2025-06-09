@@ -7,9 +7,10 @@ import { z } from 'zod'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { data, error } = await supabase
       .from('posts')
       .select(`
@@ -18,7 +19,7 @@ export async function GET(
         category:categories(*),
         tags:post_tags(tag:tags(*))
       `)
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (error) {
@@ -36,9 +37,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -63,7 +65,7 @@ export async function PATCH(
     const { data: existingPost } = await supabase
       .from('posts')
       .select('author_id, published')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (!existingPost || existingPost.author_id !== author.id) {
@@ -83,7 +85,7 @@ export async function PATCH(
     const { data: post, error: postError } = await supabaseAdmin
       .from('posts')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
@@ -95,7 +97,7 @@ export async function PATCH(
       await supabaseAdmin
         .from('post_tags')
         .delete()
-        .eq('post_id', params.id)
+        .eq('post_id', id)
 
       if (tags.length > 0) {
         const tagPromises = tags.map(async (tagName) => {
@@ -149,9 +151,10 @@ export const PUT = PATCH
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -173,7 +176,7 @@ export async function DELETE(
     const { data: existingPost } = await supabase
       .from('posts')
       .select('author_id')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (!existingPost || existingPost.author_id !== author.id) {
@@ -186,7 +189,7 @@ export async function DELETE(
     const { error } = await supabaseAdmin
       .from('posts')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
