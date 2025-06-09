@@ -53,31 +53,31 @@ DROP POLICY IF EXISTS "Authenticated users can create categories" ON categories;
 DROP POLICY IF EXISTS "Authenticated users can update categories" ON categories;
 DROP POLICY IF EXISTS "Authenticated users can delete categories" ON categories;
 
--- Only authors and admins can manage categories
-CREATE POLICY "Authors can create categories" ON categories
+-- Only admins can manage categories
+CREATE POLICY "Only admins can create categories" ON categories
   FOR INSERT WITH CHECK (
     EXISTS (
       SELECT 1 FROM authors 
       WHERE clerk_id = auth.uid()::text 
-      AND role IN ('author', 'admin')
+      AND role = 'admin'
     )
   );
 
-CREATE POLICY "Authors can update categories" ON categories
+CREATE POLICY "Only admins can update categories" ON categories
   FOR UPDATE USING (
     EXISTS (
       SELECT 1 FROM authors 
       WHERE clerk_id = auth.uid()::text 
-      AND role IN ('author', 'admin')
+      AND role = 'admin'
     )
   );
 
-CREATE POLICY "Authors can delete categories" ON categories
+CREATE POLICY "Only admins can delete categories" ON categories
   FOR DELETE USING (
     EXISTS (
       SELECT 1 FROM authors 
       WHERE clerk_id = auth.uid()::text 
-      AND role IN ('author', 'admin')
+      AND role = 'admin'
     )
   );
 

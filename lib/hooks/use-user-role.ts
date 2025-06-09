@@ -57,7 +57,7 @@ export function use_user_role() {
   const is_author = user_profile?.role === 'author'
   const is_admin = user_profile?.role === 'admin'
   const can_create_posts = is_author || is_admin
-  const can_manage_categories = is_author || is_admin
+  const can_manage_categories = is_admin
   const can_manage_users = is_admin
 
   const promote_to_author = async (): Promise<boolean> => {

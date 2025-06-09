@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Trash2, Edit } from 'lucide-react'
+import { Trash2, Edit, Shield } from 'lucide-react'
+import { use_user_role } from '@/lib/hooks/use-user-role'
 
 interface Category {
   id: string
