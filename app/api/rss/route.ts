@@ -7,16 +7,16 @@ export async function GET() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
     
     const feed = new RSS({
-      title: 'Feed',
-      description: 'A multi-author blog with RSS feed',
+      title: 'Moikas: Signal',
+      description: 'Minimal bytes from multiple minds',
       feed_url: `${baseUrl}/api/rss`,
       site_url: baseUrl,
       image_url: `${baseUrl}/logo.png`,
       managingEditor: 'editor@blogfeed.com',
       webMaster: 'webmaster@blogfeed.com',
-      copyright: `${new Date().getFullYear()} Feed`,
+      copyright: `${new Date().getFullYear()} Moikas`,
       language: 'en',
-      categories: ['Blog', 'Technology', 'Writing'],
+      categories: ['Blog', 'Technology', 'Writing', 'News', 'Gaming', 'Anime', 'Music', 'Sports'],
       pubDate: new Date().toUTCString(),
       ttl: 60,
     })

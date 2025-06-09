@@ -87,11 +87,11 @@ export default async function Home() {
           <h1 className="text-5xl md:text-6xl font-bold mb-6 font-mono">
             Welcome to{' '}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-              Feed
+              Moikas: Signal
             </span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 font-mono max-w-2xl mx-auto">
-            A minimalist blog platform for tech enthusiasts, gamers, and digital culture aficionados
+            Minimal bytes from multiple minds
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/posts">
@@ -108,7 +108,7 @@ export default async function Home() {
                 variant="outline" 
                 className="font-mono border-gray-300 dark:border-gray-700"
               >
-                Start Writing
+                Start Reading
               </Button>
             </Link>
           </div>

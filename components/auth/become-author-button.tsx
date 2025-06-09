@@ -43,7 +43,12 @@ export function BecomeAuthorButton() {
       ) : (
         <Edit className="h-4 w-4" />
       )}
-      {is_promoting ? 'Becoming Author...' : 'Become an Author'}
+      <span className="hidden sm:inline">
+        {is_promoting ? 'Becoming Author...' : 'Become an Author'}
+      </span>
+      <span className="sm:hidden">
+        {is_promoting ? 'Processing...' : 'Become Author'}
+      </span>
     </Button>
   )
 }

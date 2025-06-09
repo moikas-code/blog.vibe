@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Feed - Tech & Digital Culture Blog",
+  title: "Moikas: Signal - Tech & Digital Culture Blog",
   description: "A minimalist blog platform for gaming, anime, AI, sports, music, and news enthusiasts",
 };
 
