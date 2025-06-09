@@ -20,7 +20,7 @@ export async function POST() {
     // Check if author already exists
     const { data: existingAuthor } = await supabaseAdmin
       .from('authors')
-      .select('id, clerk_id, name, avatar_url, bio')
+      .select('id, clerk_id, name, avatar_url, bio, role')
       .eq('clerk_id', user.id)
       .single()
 
@@ -30,6 +30,7 @@ export async function POST() {
       name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || 'Anonymous',
       avatar_url: user.imageUrl || null,
       bio: existingAuthor?.bio || null, // Preserve existing bio
+      role: existingAuthor?.role || 'reader', // Default to reader role
     }
 
     let data, error
@@ -61,7 +62,8 @@ export async function POST() {
           p_clerk_id: authorData.clerk_id,
           p_name: authorData.name,
           p_avatar_url: authorData.avatar_url,
-          p_bio: authorData.bio
+          p_bio: authorData.bio,
+          p_role: authorData.role
         })
         
         if (sqlResult.error) {

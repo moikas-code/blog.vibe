@@ -5,9 +5,13 @@ import { UserButton, useUser } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { Rss } from 'lucide-react'
 import { SyncStatus } from '@/components/auth/sync-status'
+import { RoleBadge } from '@/components/auth/role-badge'
+import { BecomeAuthorButton } from '@/components/auth/become-author-button'
+import { use_user_role } from '@/lib/hooks/use-user-role'
 
 export function Header() {
   const { isSignedIn } = useUser()
+  const { user_profile, can_create_posts } = use_user_role()
 
   return (
     <>
@@ -25,7 +29,7 @@ export function Header() {
             <Link href="/categories" className="hover:text-gray-600">
               Categories
             </Link>
-            {isSignedIn && (
+            {isSignedIn && can_create_posts && (
               <Link href="/dashboard" className="hover:text-gray-600">
                 Dashboard
               </Link>
@@ -40,7 +44,11 @@ export function Header() {
             </Link>
             
             {isSignedIn ? (
-              <UserButton afterSignOutUrl="/" />
+              <>
+                {user_profile && <RoleBadge role={user_profile.role} />}
+                <BecomeAuthorButton />
+                <UserButton afterSignOutUrl="/" />
+              </>
             ) : (
               <div className="space-x-2">
                 <Link href="/sign-in">
