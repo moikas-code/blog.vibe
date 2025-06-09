@@ -31,3 +31,43 @@ BEGIN
   RETURN author_id;
 END;
 $$;
+
+-- Fix categories RLS policies
+-- Drop the restrictive admin-only policy
+DROP POLICY IF EXISTS "Only admins can manage categories" ON categories;
+
+-- Add proper category management policies
+CREATE POLICY "Authenticated users can create categories" ON categories
+  FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
+
+CREATE POLICY "Authenticated users can update categories" ON categories
+  FOR UPDATE USING (auth.uid() IS NOT NULL);
+
+CREATE POLICY "Authenticated users can delete categories" ON categories
+  FOR DELETE USING (auth.uid() IS NOT NULL);
+
+-- Allow service role to manage categories
+CREATE POLICY "Service role can manage categories" ON categories
+  FOR ALL USING (true)
+  WITH CHECK (true);
+
+-- Create RPC function to insert categories (bypasses RLS)
+CREATE OR REPLACE FUNCTION create_category(
+  p_name TEXT,
+  p_slug TEXT,
+  p_description TEXT DEFAULT NULL
+)
+RETURNS UUID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  category_id UUID;
+BEGIN
+  INSERT INTO categories (name, slug, description)
+  VALUES (p_name, p_slug, p_description)
+  RETURNING id INTO category_id;
+  
+  RETURN category_id;
+END;
+$$;
