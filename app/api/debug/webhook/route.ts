@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { supabase } from '@/lib/supabase/client'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Check if user is authenticated
     const { userId } = await auth()
