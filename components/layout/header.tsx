@@ -7,11 +7,11 @@ import { Rss } from 'lucide-react'
 import { SyncStatus } from '@/components/auth/sync-status'
 import { RoleBadge } from '@/components/auth/role-badge'
 import { BecomeAuthorButton } from '@/components/auth/become-author-button'
-import { use_user_role } from '@/lib/hooks/use-user-role'
+import { useUserRole } from '@/lib/hooks/use-user-role'
 
 export function Header() {
   const { isSignedIn } = useUser()
-  const { user_profile, can_create_posts, is_admin } = use_user_role()
+  const { user_profile, can_create_posts, is_admin } = useUserRole()
 
   return (
     <>

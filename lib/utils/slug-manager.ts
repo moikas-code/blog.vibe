@@ -42,7 +42,7 @@ export function generate_slug(text: string): string {
  * Check if a slug is reserved
  */
 export function is_reserved_slug(slug: string): boolean {
-  return RESERVED_SLUGS.includes(slug as any)
+  return RESERVED_SLUGS.includes(slug as typeof RESERVED_SLUGS[number])
 }
 
 /**
@@ -81,8 +81,7 @@ export async function slug_exists(
  */
 export async function has_cross_table_conflicts(
   slug: string, 
-  current_type: SlugType,
-  exclude_id?: string
+  current_type: SlugType
 ): Promise<{ conflicts: boolean; conflicting_types: SlugType[] }> {
   const types_to_check: SlugType[] = ['post', 'category', 'tag'].filter(
     type => type !== current_type
@@ -131,7 +130,7 @@ export async function generate_unique_slug(
     // Check cross-table conflicts if not allowed
     let cross_table_conflict = false
     if (!allow_cross_table_conflicts) {
-      const { conflicts } = await has_cross_table_conflicts(candidate_slug, type, exclude_id)
+      const { conflicts } = await has_cross_table_conflicts(candidate_slug, type)
       cross_table_conflict = conflicts
     }
     
@@ -197,8 +196,7 @@ export async function validate_and_suggest_slug(
   if (!allow_cross_table_conflicts) {
     const { conflicts, conflicting_types } = await has_cross_table_conflicts(
       proposed_slug, 
-      type, 
-      exclude_id
+      type
     )
     if (conflicts) {
       issues.push(

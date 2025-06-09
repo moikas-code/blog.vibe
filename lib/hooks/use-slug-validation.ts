@@ -5,7 +5,7 @@ function useDebounce<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
-  const timeout_ref = useRef<NodeJS.Timeout>()
+  const timeout_ref = useRef<NodeJS.Timeout | undefined>(undefined)
   
   return useCallback((...args: Parameters<T>) => {
     clearTimeout(timeout_ref.current)
@@ -157,7 +157,7 @@ export function useSlugValidation({
     
     // Computed properties
     is_valid: validation_result?.is_valid ?? true,
-    has_issues: validation_result?.issues.length > 0,
+    has_issues: (validation_result?.issues?.length ?? 0) > 0,
     suggested_slug: validation_result?.suggested_slug,
     issues: validation_result?.issues ?? []
   }

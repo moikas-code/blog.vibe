@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Tag, Home } from 'lucide-react'
-import { use_user_role } from '@/lib/hooks/use-user-role'
+import { useUserRole } from '@/lib/hooks/use-user-role'
 
 export function DashboardHeader() {
-  const { can_manage_categories } = use_user_role()
+  const { can_manage_categories } = useUserRole()
 
   return (
     <div className="glass rounded-lg p-4 mb-8">

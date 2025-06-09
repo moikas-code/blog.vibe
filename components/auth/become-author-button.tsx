@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Edit, Loader2 } from 'lucide-react'
-import { use_user_role } from '@/lib/hooks/use-user-role'
+import { useUserRole } from '@/lib/hooks/use-user-role'
 import { toast } from 'sonner'
 
 export function BecomeAuthorButton() {
-  const { is_reader, promote_to_author } = use_user_role()
+  const { is_reader, promote_to_author } = useUserRole()
   const [is_promoting, set_is_promoting] = useState(false)
 
   if (!is_reader) {

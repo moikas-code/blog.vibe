@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { use_user_role } from '@/lib/hooks/use-user-role'
+import { useUserRole } from '@/lib/hooks/use-user-role'
 import { supabase } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { RoleBadge } from '@/components/auth/role-badge'
 import { Crown, Users, FileText, FolderOpen, Loader2 } from 'lucide-react'
 import { UserRole } from '@/lib/hooks/use-user-role'
@@ -29,7 +28,7 @@ interface AdminStats {
 }
 
 export default function AdminPage() {
-  const { is_admin, is_loading } = use_user_role()
+  const { is_admin, is_loading } = useUserRole()
   const [users, set_users] = useState<UserProfile[]>([])
   const [stats, set_stats] = useState<AdminStats | null>(null)
   const [loading_users, set_loading_users] = useState(true)

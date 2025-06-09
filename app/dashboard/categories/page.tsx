@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Trash2, Edit, Shield, Plus, Tag } from 'lucide-react'
-import { use_user_role } from '@/lib/hooks/use-user-role'
+import { useUserRole } from '@/lib/hooks/use-user-role'
 
 interface Category {
   id: string
@@ -19,7 +19,7 @@ interface Category {
 }
 
 export default function CategoriesManagementPage() {
-  const { can_manage_categories, is_loading: role_loading } = use_user_role()
+  const { can_manage_categories, is_loading: role_loading } = useUserRole()
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)

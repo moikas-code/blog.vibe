@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { supabase } from '@/lib/supabase/client'
 
@@ -15,13 +15,13 @@ interface UserProfile {
   avatar_url?: string
 }
 
-export function use_user_role() {
+export function useUserRole() {
   const { user, isLoaded } = useUser()
   const [user_profile, set_user_profile] = useState<UserProfile | null>(null)
   const [is_loading, set_is_loading] = useState(true)
   const [error, set_error] = useState<string | null>(null)
 
-  const fetch_user_profile = async () => {
+  const fetch_user_profile = useCallback(async () => {
     if (!isLoaded || !user) {
       set_is_loading(false)
       return
@@ -50,11 +50,11 @@ export function use_user_role() {
     } finally {
       set_is_loading(false)
     }
-  }
+  }, [isLoaded, user])
 
   useEffect(() => {
     fetch_user_profile()
-  }, [user, isLoaded])
+  }, [user, isLoaded, fetch_user_profile])
 
   const is_reader = user_profile?.role === 'reader'
   const is_author = user_profile?.role === 'author'
