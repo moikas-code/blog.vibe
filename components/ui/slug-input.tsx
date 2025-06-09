@@ -31,6 +31,7 @@ interface SlugInputProps {
   className?: string
   show_validation?: boolean
   show_preview?: boolean
+  author_id?: string
 }
 
 export interface SlugInputRef {
@@ -52,7 +53,8 @@ export const SlugInput = forwardRef<SlugInputRef, SlugInputProps>(({
   disabled = false,
   className,
   show_validation = true,
-  show_preview = true
+  show_preview = true,
+  author_id
 }, ref) => {
   const [manual_edit, set_manual_edit] = useState(false)
   
@@ -184,7 +186,13 @@ export const SlugInput = forwardRef<SlugInputRef, SlugInputProps>(({
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <Link className="h-3 w-3" />
           <span className="font-mono text-xs">
-            /{type === 'post' ? 'posts' : type === 'category' ? 'categories' : 'tags'}/{current_slug}
+            /{type === 'post' && author_id 
+              ? `posts/${author_id}/${current_slug}` 
+              : type === 'post' 
+              ? `posts/[author_id]/${current_slug}`
+              : type === 'category' 
+              ? `categories/${current_slug}` 
+              : `tags/${current_slug}`}
           </span>
         </div>
       )}

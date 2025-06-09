@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { auth } from '@clerk/nextjs/server'
 import { 
   validate_and_suggest_slug, 
   generate_unique_slug,
   type SlugType 
 } from '@/lib/utils/slug-manager'
+import { supabase } from '@/lib/supabase/client'
 
 const validate_slug_schema = z.object({
   slug: z.string().min(1),
@@ -22,8 +24,21 @@ const generate_slug_schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const { userId } = await auth()
     const body = await request.json()
     const { action } = body
+    
+    // Get author_id for posts
+    let author_id: string | undefined
+    if (body.type === 'post' && userId) {
+      const { data: author } = await supabase
+        .from('authors')
+        .select('id')
+        .eq('clerk_id', userId)
+        .single()
+      
+      author_id = author?.id
+    }
     
     if (action === 'validate') {
       const { slug, type, exclude_id, allow_cross_table_conflicts } = 
@@ -33,7 +48,8 @@ export async function POST(request: NextRequest) {
         slug,
         type as SlugType,
         exclude_id,
-        allow_cross_table_conflicts
+        allow_cross_table_conflicts,
+        author_id
       )
       
       return NextResponse.json(result)
@@ -47,7 +63,8 @@ export async function POST(request: NextRequest) {
         text,
         type as SlugType,
         exclude_id,
-        allow_cross_table_conflicts
+        allow_cross_table_conflicts,
+        author_id
       )
       
       return NextResponse.json(result)

@@ -51,7 +51,8 @@ export function is_reserved_slug(slug: string): boolean {
 export async function slug_exists(
   slug: string, 
   type: SlugType, 
-  exclude_id?: string
+  exclude_id?: string,
+  author_id?: string
 ): Promise<boolean> {
   const table = type === 'post' ? 'posts' : 
                 type === 'category' ? 'categories' : 
@@ -61,6 +62,11 @@ export async function slug_exists(
     .from(table)
     .select('id')
     .eq('slug', slug)
+  
+  // For posts, check uniqueness per author
+  if (type === 'post' && author_id) {
+    query = query.eq('author_id', author_id)
+  }
   
   if (exclude_id) {
     query = query.neq('id', exclude_id)
@@ -109,7 +115,8 @@ export async function generate_unique_slug(
   base_text: string,
   type: SlugType,
   exclude_id?: string,
-  allow_cross_table_conflicts = false
+  allow_cross_table_conflicts = false,
+  author_id?: string
 ): Promise<{ slug: string; had_conflicts: boolean }> {
   let base_slug = generate_slug(base_text)
   let had_conflicts = false
@@ -125,11 +132,11 @@ export async function generate_unique_slug(
   
   while (attempt < 100) { // Prevent infinite loops
     // Check same-table conflicts
-    const same_table_conflict = await slug_exists(candidate_slug, type, exclude_id)
+    const same_table_conflict = await slug_exists(candidate_slug, type, exclude_id, author_id)
     
-    // Check cross-table conflicts if not allowed
+    // Check cross-table conflicts if not allowed (only for non-posts)
     let cross_table_conflict = false
-    if (!allow_cross_table_conflicts) {
+    if (!allow_cross_table_conflicts && type !== 'post') {
       const { conflicts } = await has_cross_table_conflicts(candidate_slug, type)
       cross_table_conflict = conflicts
     }
@@ -159,7 +166,8 @@ export async function validate_and_suggest_slug(
   proposed_slug: string,
   type: SlugType,
   exclude_id?: string,
-  allow_cross_table_conflicts = false
+  allow_cross_table_conflicts = false,
+  author_id?: string
 ): Promise<{
   is_valid: boolean
   suggested_slug: string
@@ -188,12 +196,16 @@ export async function validate_and_suggest_slug(
   }
   
   // Same-table conflict check
-  if (await slug_exists(proposed_slug, type, exclude_id)) {
-    issues.push(`A ${type} with this slug already exists`)
+  if (await slug_exists(proposed_slug, type, exclude_id, author_id)) {
+    if (type === 'post') {
+      issues.push(`You already have a post with this slug`)
+    } else {
+      issues.push(`A ${type} with this slug already exists`)
+    }
   }
   
-  // Cross-table conflict check
-  if (!allow_cross_table_conflicts) {
+  // Cross-table conflict check (skip for posts since they're author-scoped)
+  if (!allow_cross_table_conflicts && type !== 'post') {
     const { conflicts, conflicting_types } = await has_cross_table_conflicts(
       proposed_slug, 
       type
@@ -214,7 +226,8 @@ export async function validate_and_suggest_slug(
       proposed_slug, 
       type, 
       exclude_id, 
-      allow_cross_table_conflicts
+      allow_cross_table_conflicts,
+      author_id
     )
     suggested_slug = slug
   }

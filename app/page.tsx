@@ -162,7 +162,7 @@ export default async function Home() {
           
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {posts.map((post) => (
-              <Link key={post.id} href={`/posts/${post.slug}`} className="group">
+              <Link key={post.id} href={`/posts/${post.author_id}/${post.slug}`} className="group">
                 <Card className="h-full glass glass-hover hover-lift cursor-pointer">
                   {post.featured_image && (
                     <div className="aspect-video relative overflow-hidden">
