@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
   }
 
   const eventType = evt.type
+  console.log('Webhook received:', eventType, evt.data.id)
 
   if (eventType === 'user.created' || eventType === 'user.updated') {
     const { id, first_name, last_name, image_url } = evt.data
@@ -54,12 +55,35 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await supabaseAdmin
+      const { data, error } = await supabaseAdmin
         .from('authors')
         .upsert(authorData, { onConflict: 'clerk_id' })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error syncing author:', error)
+        return new Response(JSON.stringify({ 
+          error: 'Database error', 
+          details: error.message,
+          code: error.code,
+          hint: error.hint
+        }), { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
+
+      console.log('Author synced successfully:', data)
     } catch (error) {
       console.error('Error syncing author:', error)
-      return new Response('Database error', { status: 500 })
+      return new Response(JSON.stringify({ 
+        error: 'Database error', 
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }), { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
   }
 
