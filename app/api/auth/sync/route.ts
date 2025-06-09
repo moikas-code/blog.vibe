@@ -24,13 +24,27 @@ export async function POST() {
       .eq('clerk_id', user.id)
       .single()
 
+    // Check if this is the first user (for admin bootstrap)
+    let defaultRole = 'reader'
+    if (!existingAuthor) {
+      const { count } = await supabaseAdmin
+        .from('authors')
+        .select('*', { count: 'exact', head: true })
+      
+      // If no users exist, make this user an admin
+      if (count === 0) {
+        defaultRole = 'admin'
+        console.log('🎉 First user detected - granting admin privileges!')
+      }
+    }
+
     // Create or update author record
     const authorData = {
       clerk_id: user.id,
       name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || 'Anonymous',
       avatar_url: user.imageUrl || null,
       bio: existingAuthor?.bio || null, // Preserve existing bio
-      role: existingAuthor?.role || 'reader', // Default to reader role
+      role: existingAuthor?.role || defaultRole, // First user gets admin, others get reader
     }
 
     let data, error
@@ -89,10 +103,14 @@ export async function POST() {
       }, { status: 500 })
     }
 
+    const message = data?.role === 'admin' && defaultRole === 'admin' 
+      ? 'Welcome, admin! You are the first user and have full system access.'
+      : 'Author profile synced successfully'
+
     return NextResponse.json({ 
       success: true,
       author: data,
-      message: 'Author profile synced successfully'
+      message
     })
   } catch (error) {
     console.error('Sync error:', error)

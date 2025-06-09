@@ -11,7 +11,7 @@ import { use_user_role } from '@/lib/hooks/use-user-role'
 
 export function Header() {
   const { isSignedIn } = useUser()
-  const { user_profile, can_create_posts } = use_user_role()
+  const { user_profile, can_create_posts, is_admin } = use_user_role()
 
   return (
     <>
@@ -32,6 +32,11 @@ export function Header() {
             {isSignedIn && can_create_posts && (
               <Link href="/dashboard" className="hover:text-gray-600">
                 Dashboard
+              </Link>
+            )}
+            {isSignedIn && is_admin && (
+              <Link href="/admin" className="hover:text-gray-600">
+                Admin
               </Link>
             )}
           </div>
