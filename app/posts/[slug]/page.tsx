@@ -7,9 +7,9 @@ import { format } from 'date-fns'
 import { ArrowLeft, Calendar, User, Tag } from 'lucide-react'
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 async function getPost(slug: string) {
@@ -29,7 +29,8 @@ async function getPost(slug: string) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
 
   if (!post) {
     notFound()

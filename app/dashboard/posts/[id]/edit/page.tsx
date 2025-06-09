@@ -33,11 +33,12 @@ interface Post {
   tags?: Array<{ tag: { name: string } }>
 }
 
-export default function EditPostPage({ params }: { params: { id: string } }) {
+export default function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const [post, setPost] = useState<Post | null>(null)
+  const [postId, setPostId] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -52,8 +53,13 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
   const [tagInput, setTagInput] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
 
+  useEffect(() => {
+    params.then(p => setPostId(p.id))
+  }, [params])
+
   const fetch_post = useCallback(async () => {
-    const response = await fetch(`/api/posts/${params.id}`)
+    if (!postId) return
+    const response = await fetch(`/api/posts/${postId}`)
     if (response.ok) {
       const data = await response.json()
       setPost(data)
@@ -69,7 +75,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
         tags: data.tags?.map((t: { tag: { name: string } }) => t.tag.name) || [],
       })
     }
-  }, [params.id])
+  }, [postId])
 
   const fetch_categories = async () => {
     const response = await fetch('/api/categories')
@@ -80,9 +86,11 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
   }
 
   useEffect(() => {
-    fetch_post()
-    fetch_categories()
-  }, [fetch_post])
+    if (postId) {
+      fetch_post()
+      fetch_categories()
+    }
+  }, [postId, fetch_post])
 
   const handle_submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -92,7 +100,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     try {
       const validated_data = update_post_schema.parse(formData)
       
-      const response = await fetch(`/api/posts/${params.id}`, {
+      const response = await fetch(`/api/posts/${postId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(validated_data),
