@@ -76,6 +76,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor.isActive('bold') ? 'text-base bg-gray-200 dark:bg-gray-600' : ''}
             title="Bold"
+            aria-label="Bold"
           >
             <Bold className="h-4 w-4" />
           </Button>
@@ -86,6 +87,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={editor.isActive('italic') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Italic"
+            aria-label="Italic"
           >
             <Italic className="h-4 w-4" />
           </Button>
@@ -96,6 +98,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={editor.isActive('underline') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Underline"
+            aria-label="Underline"
           >
             <UnderlineIcon className="h-4 w-4" />
           </Button>
@@ -106,6 +109,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={editor.isActive('strike') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Strikethrough"
+            aria-label="Strikethrough"
           >
             <Strikethrough className="h-4 w-4" />
           </Button>
@@ -122,6 +126,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             className={editor.isActive('heading', { level: 1 }) ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Heading 1"
+            aria-label="Heading 1"
           >
             <Heading1 className="h-4 w-4" />
           </Button>
@@ -132,6 +137,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
             className={editor.isActive('heading', { level: 2 }) ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Heading 2"
+            aria-label="Heading 2"
           >
             <Heading2 className="h-4 w-4" />
           </Button>
@@ -142,6 +148,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
             className={editor.isActive('heading', { level: 3 }) ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Heading 3"
+            aria-label="Heading 3"
           >
             <Heading3 className="h-4 w-4" />
           </Button>
@@ -152,6 +159,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().setParagraph().run()}
             className={editor.isActive('paragraph') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Paragraph"
+            aria-label="Paragraph"
           >
             <Type className="h-4 w-4" />
           </Button>
@@ -168,6 +176,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={editor.isActive('bulletList') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Bullet List"
+            aria-label="Bullet List"
           >
             <List className="h-4 w-4" />
           </Button>
@@ -178,6 +187,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={editor.isActive('orderedList') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Ordered List"
+            aria-label="Ordered List"
           >
             <ListOrdered className="h-4 w-4" />
           </Button>
@@ -194,6 +204,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             className={editor.isActive('blockquote') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Quote"
+            aria-label="Quote"
           >
             <Quote className="h-4 w-4" />
           </Button>
@@ -204,6 +215,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleCode().run()}
             className={editor.isActive('code') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Inline Code"
+            aria-label="Inline Code"
           >
             <Code className="h-4 w-4" />
           </Button>
@@ -214,6 +226,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             className={editor.isActive('codeBlock') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Code Block"
+            aria-label="Code Block"
           >
             <Code2 className="h-4 w-4" />
           </Button>
@@ -230,6 +243,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => setShowLinkInput(!showLinkInput)}
             className={editor.isActive('link') ? 'bg-gray-200 dark:bg-gray-600' : ''}
             title="Add Link"
+            aria-label="Add Link"
           >
             <LinkIcon className="h-4 w-4" />
           </Button>
@@ -239,6 +253,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             size="sm"
             onClick={() => setShowImageInput(!showImageInput)}
             title="Add Image"
+            aria-label="Add Image"
           >
             <ImageIcon className="h-4 w-4" />
           </Button>
@@ -248,6 +263,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             size="sm"
             onClick={add_table}
             title="Add Table"
+            aria-label="Add Table"
           >
             <TableIcon className="h-4 w-4" />
           </Button>
@@ -264,6 +280,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().chain().focus().undo().run()}
             title="Undo"
+            aria-label="Undo"
           >
             <Undo className="h-4 w-4" />
           </Button>
@@ -274,6 +291,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().chain().focus().redo().run()}
             title="Redo"
+            aria-label="Redo"
           >
             <Redo className="h-4 w-4" />
           </Button>

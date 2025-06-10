@@ -75,6 +75,7 @@ export function InstallPrompt() {
             size="icon"
             className="rounded-lg shrink-0"
             onClick={handle_dismiss}
+            aria-label="Dismiss install prompt"
           >
             <X className="h-4 w-4" />
           </Button>

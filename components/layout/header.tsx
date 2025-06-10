@@ -50,8 +50,8 @@ export function Header() {
             
             {/* Desktop Right Side */}
             <div className="hidden md:flex items-center space-x-4">
-              <Link href="/api/rss" target="_blank" rel="noopener noreferrer">
-                <Button variant="ghost" size="icon" className="rounded-lg">
+              <Link href="/api/rss" target="_blank" rel="noopener noreferrer" aria-label="RSS Feed">
+                <Button variant="ghost" size="icon" className="rounded-lg" aria-label="RSS Feed">
                   <Rss className="h-4 w-4" />
                 </Button>
               </Link>
@@ -82,6 +82,8 @@ export function Header() {
                 size="icon"
                 className="rounded-lg"
                 onClick={() => set_is_mobile_menu_open(!is_mobile_menu_open)}
+                aria-label={is_mobile_menu_open ? "Close menu" : "Open menu"}
+                aria-expanded={is_mobile_menu_open}
               >
                 {is_mobile_menu_open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
