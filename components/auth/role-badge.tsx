@@ -21,13 +21,13 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
       label: 'Author',
       icon: Edit,
       variant: 'outline' as const,
-      className: 'glass gradient-ai text-white border-0'
+      className: 'glass gradient-a dark:text-white border-0'
     },
     admin: {
       label: 'Admin',
       icon: Crown,
       variant: 'outline' as const,
-      className: 'glass gradient-gaming text-white border-0'
+      className: 'glass gradient-gaming dark:text-white border-0'
     }
   }
 

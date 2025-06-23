@@ -90,7 +90,7 @@ export default async function DashboardPage() {
                         {post.published ? 'Published' : 'Draft'}
                       </span>
                       {post.category && (
-                        <span className={`px-2 py-1 rounded-md text-white ${
+                        <span className={`px-2 py-1 rounded-md dark:text-white ${
                           post.category.slug === 'gaming' ? 'gradient-gaming' :
                           post.category.slug === 'anime' ? 'gradient-anime' :
                           post.category.slug === 'ai' ? 'gradient-ai' :

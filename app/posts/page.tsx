@@ -119,7 +119,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
                 )}
                 <CardContent className="p-6">
                   {post.category && (
-                    <span className={`inline-block px-2 py-1 text-xs font-mono rounded-md mb-3 text-white ${
+                    <span className={`inline-block px-2 py-1 text-xs font-mono rounded-md mb-3 dark:text-white ${
                       post.category.slug === 'gaming' ? 'gradient-gaming' :
                       post.category.slug === 'anime' ? 'gradient-anime' :
                       post.category.slug === 'ai' ? 'gradient-ai' :

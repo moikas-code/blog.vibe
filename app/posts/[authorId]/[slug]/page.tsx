@@ -81,7 +81,7 @@ export default async function PostPage({ params }: PostPageProps) {
             {post.category && (
               <Link
                 href={`/posts?category=${post.category.slug}`}
-                className={`px-3 py-1 rounded-lg text-white ${
+                className={`px-3 py-1 rounded-lg dark:text-white ${
                   post.category.slug === 'gaming' ? 'gradient-gaming' :
                   post.category.slug === 'anime' ? 'gradient-anime' :
                   post.category.slug === 'ai' ? 'gradient-ai' :
